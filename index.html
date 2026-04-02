@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner App - ခရမ်းချဉ်းစာရင်း</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: auto; padding: 15px; }
+
+        /* အပေါ်ဆုံး ကြေညာစာတန်း */
+        .marquee-box {
+            background: #ffc107;
+            color: #000;
+            padding: 10px 0;
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: scroll-left 15s linear infinite;
+            font-size: 16px;
+        }
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* ပုံ Style */
+        .app-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px auto;
+            display: block;
+            border: 4px solid #6f42c1;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Login & Register Section */
+        #auth-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90vh; }
+        .auth-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 90%; max-width: 320px; text-align: center; }
+        .auth-card h2 { color: #6f42c1; margin-bottom: 20px; font-size: 1.4rem; }
+        .auth-card input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .auth-btn { background: #6f42c1; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .toggle-link { margin-top: 15px; display: block; color: #666; font-size: 14px; cursor: pointer; text-decoration: underline; }
+
+        /* Main App Section */
+        #main-app { display: none; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #1e2129; color: white; padding: 10px 15px; position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .header-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #fff; }
+        .header-title { font-weight: bold; font-size: 17px; }
+        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12px; }
+
+        /* Input Form */
+        .input-card { background: white; padding: 20px; border-radius: 12px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .input-group input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .add-btn { background: #6f42c1; color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+
+        /* Worker Cards */
+        .worker-card { background: white; border-radius: 12px; margin-bottom: 25px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        .worker-name { background: #6f42c1; color: white; padding: 12px; font-weight: bold; text-align: center; font-size: 18px; }
+        table { width: 100%; border-collapse: collapse; }
+        td, th { padding: 12px; border-bottom: 1px solid #f8f8f8; text-align: left; font-size: 15px; }
+        th { background: #fafafa; color: #888; font-size: 13px; font-weight: normal; }
+        .del-btn { color: #ff4d4d; cursor: pointer; font-weight: bold; font-size: 20px; text-align: center; width: 40px; }
+        .sub-total { padding: 15px; text-align: right; background: #fdf8ff; font-weight: bold; color: #6f42c1; font-size: 17px; border-top: 2px solid #f0eaff; }
+        
+        .grand-total { background: #1e2129; color: white; padding: 22px; border-radius: 12px; text-align: center; font-size: 22px; font-weight: bold; margin-top: 20px; margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+<div class="marquee-box">
+    <div class="marquee-text">🌟 ခရမ်းချဉ်းခြံ လုပ်သားစာရင်းများကို စနစ်တကျ မှတ်သားပေးပါ... 🍅</div>
+</div>
+
+<div id="auth-section">
+    <img src="https://i.postimg.cc/3w3d0STp/IMG-20260331-184035.jpg" alt="Logo" class="app-logo">
+    
+    <div class="auth-card" id="login-form">
+        <h2>ခရမ်းချဉ်းစာရင်း Login</h2>
+        <input type="text" id="loginUser" placeholder="အသုံးပြုသူအမည်">
+        <input type="password" id="loginPass" placeholder="စကားဝှက်">
+        <button class="auth-btn" onclick="login()">ဝင်ရောက်မည်</button>
+        <span class="toggle-link" onclick="toggleAuth()">အကောင့်အသစ်ဖွင့်ရန်</span>
+    </div>
+
+    <div class="auth-card" id="register-form" style="display: none;">
+        <h2>အကောင့်သစ်ဖွင့်ရန်</h2>
+        <input type="text" id="regUser" placeholder="အမည်သစ်">
+        <input type="password" id="regPass" placeholder="စကားဝှက်သစ်">
+        <button class="auth-btn" onclick="register()">အကောင့်ဖွင့်မည်</button>
+        <span class="toggle-link" onclick="toggleAuth()">အကောင့်ရှိလျှင် ပြန်ဝင်ရန်</span>
+    </div>
+</div>
+
+<div id="main-app">
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.postimg.cc/3w3d0STp/IMG-20260331-184035.jpg" alt="Logo" class="header-img">
+            <span class="header-title">ခရမ်းချဉ်း စာရင်း</span>
+        </div>
+        <button class="logout-btn" onclick="logout()">ထွက်မည်</button>
+    </div>
+
+    <div class="container">
+        <div class="input-card">
+            <div class="input-group">
+                <input type="text" id="nameIn" placeholder="အလုပ်သမားအမည်">
+                <input type="date" id="dateIn">
+                <input type="number" id="wageIn" placeholder="လုပ်အားခ (ကျပ်)">
+                <button class="add-btn" onclick="addEntry()">စာရင်းသွင်းမည်</button>
+            </div>
+        </div>
+
+        <div id="wagesGrid"></div>
+        <div class="grand-total" id="totalBar">အားလုံးစုစုပေါင်း ရငွေ: 0 ကျပ်</div>
+    </div>
+</div>
+
+<script>
+    let records = JSON.parse(localStorage.getItem('wages_data')) || [];
+
+    window.onload = function() {
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            showApp();
+        } else {
+            showAuth();
+        }
+        document.getElementById('dateIn').valueAsDate = new Date();
+    };
+
+    function showAuth() {
+        document.getElementById('auth-section').style.display = 'flex';
+        document.getElementById('main-app').style.display = 'none';
+    }
+
+    function showApp() {
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        render();
+    }
+
+    function toggleAuth() {
+        const l = document.getElementById('login-form');
+        const r = document.getElementById('register-form');
+        l.style.display = l.style.display === 'none' ? 'block' : 'none';
+        r.style.display = r.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function register() {
+        const u = document.getElementById('regUser').value.trim();
+        const p = document.getElementById('regPass').value.trim();
+        if(u && p) {
+            localStorage.setItem('owner_user', u);
+            localStorage.setItem('owner_pass', p);
+            alert("အကောင့်ဖွင့်ပြီးပါပြီ။ Login ဝင်ပါ။");
+            toggleAuth();
+        }
+    }
+
+    function login() {
+        const u = document.getElementById('loginUser').value.trim();
+        const p = document.getElementById('loginPass').value.trim();
+        const savedU = localStorage.getItem('owner_user');
+        const savedP = localStorage.getItem('owner_pass');
+
+        if(u === savedU && p === savedP && savedU !== null) {
+            localStorage.setItem('isLoggedIn', 'true');
+            showApp();
+        } else {
+            alert("အမည် သို့မဟုတ် Password မှားနေပါသည်။");
+        }
+    }
+
+    function logout() {
+        if(confirm("အကောင့်ထဲမှ ထွက်မှာလား?")) {
+            localStorage.setItem('isLoggedIn', 'false');
+            showAuth();
+        }
+    }
+
+    function addEntry() {
+        const name = document.getElementById('nameIn').value.trim();
+        const date = document.getElementById('dateIn').value;
+        const wage = parseInt(document.getElementById('wageIn').value);
+
+        if(name && date && wage) {
+            // နာမည်တူရင် Group ဖွဲ့ရအောင် နာမည်ကို case ညှိပြီး သိမ်းမယ်
+            records.push({ id: Date.now(), name: name, date: date, wage: wage });
+            save();
+            document.getElementById('wageIn').value = '';
+        } else {
+            alert("အချက်အလက် အကုန်ဖြည့်ပါ");
+        }
+    }
+
+    function deleteEntry(id) {
+        if(confirm("ဖျက်မှာ သေချာလား?")) {
+            records = records.filter(r => r.id !== id);
+            save();
+        }
+    }
+
+    function save() {
+        localStorage.setItem('wages_data', JSON.stringify(records));
+        render();
+    }
+
+    function render() {
+        const grid = document.getElementById('wagesGrid');
+        grid.innerHTML = '';
+        let grandTotal = 0;
+
+        // နာမည်တူတာတွေကို စုစည်းခြင်း (Grouping Logic)
+        const groups = records.reduce((acc, r) => {
+            const workerName = r.name;
+            if (!acc[workerName]) acc[workerName] = [];
+            acc[workerName].push(r);
+            return acc;
+        }, {});
+
+        // နာမည်အလိုက် Card လေးတွေ ထုတ်ပေးခြင်း
+        for (let name in groups) {
+            let subTotal = 0;
+            let card = document.createElement('div');
+            card.className = 'worker-card';
+            
+            let tableRows = "";
+            // အဲဒီလူရဲ့ စာရင်းတွေကို ရက်စွဲအလိုက် စီပေးမယ်
+            groups[name].sort((a,b) => new Date(a.date) - new Date(b.date)).forEach(r => {
+                subTotal += r.wage;
+                grandTotal += r.wage;
+                tableRows += `
+                    <tr>
+                        <td>${r.date}</td>
+                        <td>${r.wage.toLocaleString()} ကျပ်</td>
+                        <td class="del-btn" onclick="deleteEntry(${r.id})">×</td>
+                    </tr>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="worker-name">${name}</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ရက်စွဲ</th>
+                            <th>လုပ်အားခ</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableRows}</tbody>
+                </table>
+                <div class="sub-total">စုစုပေါင်းရငွေ: ${subTotal.toLocaleString()} ကျပ်</div>
+            `;
+            grid.appendChild(card);
+        }
+        document.getElementById('totalBar').innerText = `အားလုံးစုစုပေါင်း ရငွေ: ${grandTotal.toLocaleString()} ကျပ်`;
+    }
+</script>
+
+</body>
+</html>
+
