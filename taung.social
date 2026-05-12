@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>တအာင်း Social - All in One</title>
+    <style>
+        /* --- အခြေခံ Style များနှင့် Animation --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #0b0e14; color: white; min-height: 100vh; overflow-x: hidden; }
+
+        .page { display: none; width: 100%; animation: fadeIn 0.5s ease; }
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ၁။ Signup Page Style --- */
+        .signup-screen { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .signup-container { 
+            background: #1e1e1e; padding: 30px; border-radius: 20px; width: 100%; 
+            max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; 
+            border-top: 5px solid #3498db; 
+        }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
+        .input-group input { 
+            width: 100%; padding: 12px; background: #2c2c2e; border: 1px solid #3a3a3c; 
+            border-radius: 10px; color: white; outline: none; 
+        }
+        .signup-btn { 
+            width: 100%; padding: 14px; background: #3498db; border: none; 
+            border-radius: 10px; color: white; font-size: 16px; font-weight: bold; 
+            cursor: pointer; margin-top: 10px; 
+        }
+
+        /* --- ၂။ Home Content Style --- */
+        .content-padding { padding: 20px; padding-bottom: 120px; }
+        .card { 
+            background: #1e1e1e; border-radius: 15px; padding: 20px; 
+            margin-bottom: 20px; border-left: 5px solid #3498db; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+        .card h3 { color: #3498db; margin-bottom: 10px; }
+        .card p { color: #ccc; font-size: 14px; line-height: 1.6; white-space: pre-line; }
+
+        .clothes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .clothes-card { background: #1e1e1e; border-radius: 12px; overflow: hidden; text-align: center; border-bottom: 3px solid #e67e22; }
+        .clothes-card img { width: 100%; height: 160px; object-fit: cover; background: #333; }
+        
+        .map-container { width: 100%; height: 300px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 2px solid #2ecc71; }
+
+        /* --- ၃။ Floating Menu Style --- */
+        .menu-container { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            width: 90%; max-width: 400px; z-index: 1000; display: none; 
+        }
+        .menu-bubble { 
+            background-color: #1a222d; display: flex; justify-content: space-around; 
+            align-items: center; padding: 10px 5px; border-radius: 50px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #8e8e93; font-size: 10px; flex: 1; cursor: pointer; }
+        .nav-item.active { color: #3498db; }
+        .icon-dot { width: 8px; height: 8px; background: currentColor; border-radius: 50%; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- ၁။ Signup Screen -->
+    <div id="signupPage" class="page">
+        <div class="signup-screen">
+            <div class="signup-container">
+                <h2>အကောင့်သစ်ဖွင့်ရန်</h2>
+                <p style="color: #888; margin-bottom: 20px;">တအာင်းလူမှုကွန်ရက်မှ ကြိုဆိုပါသည်</p>
+                <form onsubmit="handleSignup(event)">
+                    <div class="input-group">
+                        <label>အမည်အပြည့်အစုံ</label>
+                        <input type="text" id="regName" placeholder="နင့်နာမည်ကို ရေးပါ" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Gmail လိပ်စာ</label>
+                        <input type="email" placeholder="example@gmail.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label>စကားဝှက် (Password)</label>
+                        <input type="password" placeholder="စကားဝှက်အသစ်" required>
+                    </div>
+                    <button type="submit" class="signup-btn">အကောင့်ဖွင့်မည်</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ၂။ Home - ရိုးရာ Page -->
+    <div id="traditional" class="page content-padding">
+        <h2 style="text-align: center; margin: 20px 0; color: #3498db;">တအာင်းရိုးရာ</h2>
+        <div class="card">
+            <h3>လက်ဖက်ယဉ်ကျေးမှု</h3>
+            <p>တအာင်းလူမျိုးတို့သည် လက်ဖက်ကို အလေးထားကြသည်။ ဧည့်သည်လာလျှင် လက်ဖက်ဖြင့် တည်ခင်းဧည့်ခံခြင်းသည် အဓိက ရိုးရာတစ်ခုဖြစ်သည်။</p>
+        </div>
+        <div class="card">
+            <h3>ရိုးရာအိုးစည်</h3>
+            <p>​၁။ အိုးစည်၏ တည်ဆောက်ပုံ (Structure)
+​တအာင်းရိုးရာအိုးစည်ကို လက်မှုပညာဖြင့် သေချာစွာ ထုလုပ်ရုံတင်မကဘဲ အနုပညာလက်ရာလည်း မြောက်လှပါတယ်။
+​သစ်သား: များသောအားဖြင့် ကုက္ကိုသား သို့မဟုတ် သစ်မင်းသားကို အခေါင်းဖောက်ပြီး အသုံးပြုကြပါတယ်။ သစ်သားအမျိုးအစားပေါ်မူတည်ပြီး ထွက်လာတဲ့ အသံရဲ့ အနိမ့်အမြင့် ကွာခြားတတ်ပါတယ်။
+​မျက်နှာပြင်: အိုးစည်မျက်နှာပြင်ကို နွားသားရေ (အထူးသဖြင့် နွားနုသားရေ) ဖြင့် တင်းနေအောင် ကျစ်ထားရပါတယ်။
+​အလှဆင်ခြင်း: အိုးစည်ကိုယ်ထည်ကို ရွှေရောင် သို့မဟုတ် အနီရောင် ဆေးများခြယ်သလေ့ရှိပြီး တအာင်းရိုးရာ ပန်းကွက်များဖြင့် အလှဆင်လေ့ရှိပါတယ်။
+​၂။ တီးခတ်ပုံနှင့် တူရိယာများ
+​အိုးစည်တစ်လုံးတည်း တီးခတ်ခြင်းထက် အောက်ပါတူရိယာများဖြင့် အဖွဲ့လိုက် (အိုးစည်အဖွဲ့) တီးခတ်ရတာက ပိုပြီး စည်ကားလှပပါတယ်-
+​အိုးစည်: ပင်တိုင်တူရိယာ။
+​မောင်း (Gong): အချက်ကျကျ တီးခတ်ရန်။
+​လင်းကွင်း (Cymbals): စည်းချက်မြန်ပြီး မြိုင်ဆိုင်စေရန်။
+​ပုလွေ (Flute): သာယာသော အသံဖြင့် ရိုးရာသံစဉ်များ ဖော်ဆောင်ရန်။
+​၃။ အိုးစည်ကပြခြင်း (The Dance)
+​တအာင်းအိုးစည်တီးရာတွင် တီးရုံတင်မကဘဲ ကပြသူများလည်း ပါဝင်ပါတယ်။
+​အမျိုးသားများ: အိုးစည်ကို ပခုံးတွင် လွယ်ကာ ခုန်ပေါက်ပြီး သွက်လက်ချက်ချာစွာ ကပြကြပါတယ်။
+​အမျိုးသမီးများ: ရိုးရာဝတ်စုံအပြည့်အစုံ ဝတ်ဆင်ကာ အိုးစည်သံအလိုက် လက်ဖျား၊ ခြေဖျား လှုပ်ရှားကာ နူးညံ့စွာ ကပြကြပါတယ်။
+​၄။ အသုံးပြုသည့် အခါသမယများ
+​တအာင်းလူမျိုးတို့သည် အောက်ပါပွဲလမ်းသဘင်များတွင် အိုးစည်ကို မရှိမဖြစ် အသုံးပြုကြသည်-
+​အလှူအတန်းနှင့် ပွဲလမ်းများ: ရှင်ပြုပွဲ၊ နားသမပွဲနှင့် ဘုရားပွဲများ။
+​ဧည့်သည်တော် ကြိုဆိုပွဲ: ရွာကို ရောက်ရှိလာသော အထူးဧည့်သည်တော်များကို အိုးစည်အဖွဲ့ဖြင့် ဂုဏ်ပြုကြိုဆိုခြင်း။
+​ရိုးရာနှစ်သစ်ကူးပွဲ: တအာင်းအမျိုးသားနေ့နှင့် နှစ်သစ်ကူးပွဲတော်များတွင် ရွာလုံးကျွတ် ပျော်ပွဲရွှင်ပွဲများ ကျင်းပရာတွင် အဓိက ပါဝင်ပါတယ်။
+​၅။ အဓိပ္ပာယ်နှင့် တန်ဖိုး
+​အိုးစည်သံသည် တအာင်းလူမျိုးတို့အတွက် "စည်းလုံးခြင်း" ကို ဖော်ဆောင်ပါတယ်။ အိုးစည်သံကြားရသည်နှင့် တစ်ရွာလုံး စုဝေးကာ ပျော်ရွှင်စွာ ပါဝင်ဆင်နွှဲကြသည့် အလေ့အထရှိသောကြောင့် အိုးစည်သည် တအာင်းတို့၏ ဂုဏ်ယူရသော အမျိုးသားရေး လက္ခဏာတစ်ခုလည်း ဖြစ်ပါတယ်ဗျာ။</p>
+        </div>
+    </div>
+
+    <!-- ၃။ Home - ဝတ်စုံ Page -->
+    <div id="clothes" class="page content-padding">
+        <h2 style="text-align: center; margin: 20px 0; color: #e67e22;">ရိုးရာဝတ်စုံများ</h2>
+        <div class="clothes-grid">
+            <div class="clothes-card">
+                <img src="https://i.ibb.co/RG5dFKn2/myphoto.jpg" alt="ငွေပလောင်">
+                <p style="padding:8px; font-weight:bold;">ငွေပလောင်</p>
+            </div>
+            <div class="clothes-card">
+                <img src="https://i.ibb.co/RpsvMsjg/myphoto.jpg" alt="ရွှေပလောင်">
+                <p style="padding:8px; font-weight:bold;">ရွှေပလောင်</p>
+            </div>
+        </div>
+        <div class="card" style="border-left-color: #e67e22;">
+            <h3>ဝတ်စုံ၏ ထူးခြားချက်</h3>
+            <p>ခါးတွင် ကြိမ်ကွင်းများ ဝတ်ဆင်ခြင်းမှာ တအာင်းမျိုးနွယ်စုများ၏ အမှတ်အသားဖြစ်သည်။</p>
+        </div>
+    </div>
+
+    <!-- ၄။ Home - မြေပုံ Page -->
+    <div id="map" class="page content-padding">
+        <h2 style="text-align: center; margin: 20px 0; color: #2ecc71;">တအာင်းဒေသမြေပုံ</h2>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59187.6256920427!2d97.11476145!3d22.9234857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x37324317b2f4f815%3A0x6739e8f6688d227f!2sNamhsan!5e0!3m2!1sen!2smm!4v1715421234567!5m2!1sen!2smm" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="card" style="border-left-color: #2ecc71;">
+            <p>နမ့်ဆန်မြို့သည် တအာင်းတို့၏ အဓိက ဗဟိုချက်မြို့တော် ဖြစ်ပါသည်။</p>
+        </div>
+    </div>
+
+    <!-- ၅။ Home - မျိုးနွယ်စု Page -->
+    <div id="clans" class="page content-padding">
+        <h2 style="text-align: center; margin: 20px 0; color: #9b59b6;">မျိုးနွယ်စု (၁၃) မျိုး</h2>
+        <div class="card" style="border-left-color: #9b59b6;">
+            <p>၁။ ရွှေ၊ ၂။ ပလေ၊ ၃။ ရူမိုင်၊ ၄။ ကွမ်းလုံ၊ ၅။ ပြန်၊ ၆။ မော်၊ ၇။ အာယီ၊ ၈။ ခမ်းကွမ်၊ ၉။ ကတူး၊ ၁၀။ ကနွယ်၊ ၁၁။ တော့လွယ်၊ ၁၂။ ရောင်လော့၊ ၁၃။ ဒါးဝက်။</p>
+        </div>
+        <center><button onclick="logout()" style="background:#ff4757; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;">အကောင့်ထွက်ရန်</button></center>
+        <div style="text-align: center; margin-top: 25px; padding: 10px;">
+    <p style="color: #8e8e93; font-size: 13px; margin-bottom: 10px;"> website ရေတယ်လူငယ်အကောက်
+    <a href="https://www.facebook.com/share/14ceAry8zDx/" target="_blank" style="
+        display: inline-flex;
+        align-items: center;
+        background-color: #1877f2;
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3);
+    ">
+        <span style="margin-right: 8px; font-size: 18px;"></span> 
+        Facebook သို့
+    </a>
+</div>
+
+    </div>
+
+    <!-- Navigation Menu (Login ဝင်မှပြမည်) -->
+    <div id="navBar" class="menu-container">
+        <div class="menu-bubble">
+            <div class="nav-item active" onclick="changePage('traditional', this)">
+                <div class="icon-dot"></div><span>ရိုးရာ</span>
+            </div>
+            <div class="nav-item" onclick="changePage('clothes', this)">
+                <div class="icon-dot"></div><span>ဝတ်စုံ</span>
+            </div>
+            <div class="nav-item" onclick="changePage('map', this)">
+                <div class="icon-dot"></div><span>မြေပုံ</span>
+            </div>
+            <div class="nav-item" onclick="changePage('clans', this)">
+                <div class="icon-dot"></div><span>မျိုးနွယ်စု</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // စာမျက်နှာစဖွင့်ချိန်တွင် စစ်ဆေးခြင်း
+        window.onload = function() {
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                loadMainApp();
+            } else {
+                showSignup();
+            }
+        };
+
+        function showSignup() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('signupPage').classList.add('active');
+            document.getElementById('navBar').style.display = 'none';
+        }
+
+        function loadMainApp() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('traditional').classList.add('active');
+            document.getElementById('navBar').style.display = 'block';
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("userName", document.getElementById('regName').value);
+            loadMainApp();
+        }
+
+        function changePage(pageId, element) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+          
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            element.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function logout() {
+            localStorage.removeItem("isLoggedIn");
+            location.reload();
+        }
+    </script>
+</body>
+</html>
+
